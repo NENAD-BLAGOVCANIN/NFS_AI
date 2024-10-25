@@ -7,7 +7,7 @@ import os
 # Output file for frames
 output_filename = "train_data.npy"
 batch_size = 100
-frames = []
+frames_and_keys = []
 
 try:
     print("Recording... Press Ctrl+C to stop.")
@@ -16,24 +16,24 @@ try:
     while True:
         # Capture the screen and get the frame as an array
         frame = record_screen()
-        frames.append(frame)
+        keys_pressed = get_arrow_keys()  # Get the array of keys pressed
+        
+        # Store the frame and keys pressed as a tuple
+        frames_and_keys.append((frame, keys_pressed))
         frame_count += 1
 
-        # Check arrow keys (optional, for your display purpose)
-        print(get_arrow_keys())
-        
         # Save frames in batches
         if frame_count % batch_size == 0:
             # If the file already exists, append; otherwise, save as a new file
             if os.path.exists(output_filename):
-                existing_data = np.load(output_filename)
-                new_data = np.concatenate((existing_data, np.array(frames)))
+                existing_data = np.load(output_filename, allow_pickle=True)
+                new_data = np.concatenate((existing_data, np.array(frames_and_keys, dtype=object)))  # Use dtype=object
             else:
-                new_data = np.array(frames)
+                new_data = np.array(frames_and_keys, dtype=object)  # Use dtype=object
             
             # Save updated data
-            np.save(output_filename, new_data)
-            frames = []  # Reset frames list after saving
+            np.save(output_filename, new_data, allow_pickle=True)  # Allow pickle for heterogeneous data
+            frames_and_keys = []  # Reset frames list after saving
 
         time.sleep(0.05)
 
@@ -42,13 +42,13 @@ except KeyboardInterrupt:
 
 finally:
     # Save any remaining frames if there are any
-    if frames:
+    if frames_and_keys:
         if os.path.exists(output_filename):
-            existing_data = np.load(output_filename)
-            new_data = np.concatenate((existing_data, np.array(frames)))
+            existing_data = np.load(output_filename, allow_pickle=True)
+            new_data = np.concatenate((existing_data, np.array(frames_and_keys, dtype=object)))  # Use dtype=object
         else:
-            new_data = np.array(frames)
-        np.save(output_filename, new_data)
+            new_data = np.array(frames_and_keys, dtype=object)  # Use dtype=object
+        np.save(output_filename, new_data, allow_pickle=True)
     
     close_recorder()
-    print(f"Frames saved in '{output_filename}'")
+    print(f"Frames and keys saved in '{output_filename}'")
