@@ -5,11 +5,11 @@ import mss
 # Screen and capture settings
 SCREEN_WIDTH = 2880
 SCREEN_HEIGHT = 1620
-CAPTURE_AREA_WIDTH = 1000
-CAPTURE_AREA_HEIGHT = 700
+CAPTURE_AREA_WIDTH = 1100
+CAPTURE_AREA_HEIGHT = 900
 
 x = SCREEN_WIDTH // 2 - (CAPTURE_AREA_WIDTH // 2)
-y = SCREEN_HEIGHT // 2 - (CAPTURE_AREA_HEIGHT // 2) + 500
+y = SCREEN_HEIGHT // 2 - (CAPTURE_AREA_HEIGHT // 2) + 300
 
 # Initialize screen capture with mss
 sct = mss.mss()

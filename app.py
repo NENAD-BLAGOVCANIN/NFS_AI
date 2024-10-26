@@ -8,6 +8,11 @@ output_filename = "train_data.npy"
 batch_size = 100
 frames_and_keys = []
 
+print("Starting in...")
+for i in range(10, 0, -1):
+    print(i)
+    time.sleep(1)
+
 try:
     print("Recording... Press Ctrl+C to stop.")
     frame_count = 0

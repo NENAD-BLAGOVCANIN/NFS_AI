@@ -14,4 +14,5 @@ def get_arrow_keys():
     if keyboard.is_pressed("down"):
         keys_state[3] = 1
 
+    print(keys_state)
     return keys_state
