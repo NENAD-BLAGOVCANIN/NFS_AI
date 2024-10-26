@@ -5,11 +5,11 @@ import mss
 # Screen and capture settings
 SCREEN_WIDTH = 2880
 SCREEN_HEIGHT = 1620
-CAPTURE_AREA_WIDTH = 1100
-CAPTURE_AREA_HEIGHT = 900
+CAPTURE_AREA_WIDTH = 1000
+CAPTURE_AREA_HEIGHT = 800
 
 x = SCREEN_WIDTH // 2 - (CAPTURE_AREA_WIDTH // 2)
-y = SCREEN_HEIGHT // 2 - (CAPTURE_AREA_HEIGHT // 2) + 300
+y = SCREEN_HEIGHT // 2 - (CAPTURE_AREA_HEIGHT // 2) + 400
 
 # Initialize screen capture with mss
 sct = mss.mss()
@@ -20,14 +20,10 @@ def record_screen():
     frame = np.array(sct_img)
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGRA2GRAY)
 
-    # cv2.imshow("Screen Capture", gray_frame)
-    
-    # # Allow 'q' to quit from the display window
-    # if cv2.waitKey(1) & 0xFF == ord('q'):
-    #     close_recorder()
-    #     raise SystemExit  # Stop the external loop if 'q' is pressed
+    # Resize the frame to 1/4th of its original size
+    resized_frame = cv2.resize(gray_frame, (0, 0), fx=0.25, fy=0.25)
 
-    return gray_frame
+    return resized_frame
 
 def close_recorder():
     sct.close()
