@@ -3,19 +3,20 @@ import cv2
 
 def load_numpy_file(file_path):
     """Load the NumPy array from the specified file and extract frame data."""
-    # Load the entire array
     data = np.load(file_path, allow_pickle=True)
     
+    for item in data:
+        print(item[1])
+
     # Extract only the frame data (the first item of each tuple)
     gray_array = np.array([item[0] for item in data])
     return gray_array
 
 def create_video_from_grayscale_array(gray_array, output_file, fps=30):
     """Create a video from the given grayscale array."""
-    # Get the shape of the array
+
     height, width = gray_array.shape[1], gray_array.shape[2]
     
-    # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'XVID')  # You can change codec if needed
     out = cv2.VideoWriter(output_file, fourcc, fps, (width, height), False)
 
@@ -34,9 +35,6 @@ if __name__ == "__main__":
     output_video_path = 'test_video.avi'
 
     gray_array = load_numpy_file(numpy_file_path)
-
-    # Print the shape of the loaded gray array
-    print(f"Loaded gray array shape: {gray_array.shape}")
 
     # Ensure the array is in the correct shape (number of frames, height, width)
     if gray_array.ndim != 3:
