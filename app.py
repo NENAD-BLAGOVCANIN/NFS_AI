@@ -4,9 +4,10 @@ import numpy as np
 import time
 import os
 
-output_filename = "train_data.npy"
-batch_size = 100
+output_filename = "train_data_v2"
+batch_size = 1000
 frames_and_keys = []
+batch_count = 1
 
 print("Starting in...")
 for i in range(10, 0, -1):
@@ -18,7 +19,6 @@ try:
     frame_count = 0
     
     while True:
-
         frame = record_screen()
         keys_pressed = get_arrow_keys()
         
@@ -34,14 +34,18 @@ try:
         if frame_count % batch_size == 0:
             # Convert to array with consistent shape
             batch_data = np.array(frames_and_keys, dtype=object)
-            if os.path.exists(output_filename):
-                existing_data = np.load(output_filename, allow_pickle=True)
+            batch_filename = f"{output_filename}_{batch_count}.npy"
+            
+            if os.path.exists(batch_filename):
+                existing_data = np.load(batch_filename, allow_pickle=True)
                 new_data = np.concatenate((existing_data, batch_data))
             else:
                 new_data = batch_data
             
-            np.save(output_filename, new_data, allow_pickle=True)
+            np.save(batch_filename, new_data, allow_pickle=True)
+            print(f"Saved batch {batch_count} to '{batch_filename}'")
             frames_and_keys = []
+            batch_count += 1
 
         time.sleep(0.05)
 
@@ -51,12 +55,16 @@ except KeyboardInterrupt:
 finally:
     if frames_and_keys:
         batch_data = np.array(frames_and_keys, dtype=object)
-        if os.path.exists(output_filename):
-            existing_data = np.load(output_filename, allow_pickle=True)
+        batch_filename = f"{output_filename}_{batch_count}.npy"
+        
+        if os.path.exists(batch_filename):
+            existing_data = np.load(batch_filename, allow_pickle=True)
             new_data = np.concatenate((existing_data, batch_data))
         else:
             new_data = batch_data
-        np.save(output_filename, new_data, allow_pickle=True)
+        
+        np.save(batch_filename, new_data, allow_pickle=True)
+        print(f"Saved remaining frames to '{batch_filename}'")
     
     close_recorder()
-    print(f"Frames and keys saved in '{output_filename}'")
+    print("Recording complete.")

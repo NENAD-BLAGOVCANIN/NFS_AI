@@ -20,12 +20,12 @@ def record_screen():
     frame = np.array(sct_img)
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGRA2GRAY)
 
-    cv2.imshow("Screen Capture", gray_frame)
+    # cv2.imshow("Screen Capture", gray_frame)
     
-    # Allow 'q' to quit from the display window
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        close_recorder()
-        raise SystemExit  # Stop the external loop if 'q' is pressed
+    # # Allow 'q' to quit from the display window
+    # if cv2.waitKey(1) & 0xFF == ord('q'):
+    #     close_recorder()
+    #     raise SystemExit  # Stop the external loop if 'q' is pressed
 
     return gray_frame
 
