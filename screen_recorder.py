@@ -20,8 +20,9 @@ def record_screen():
     frame = np.array(sct_img)
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGRA2GRAY)
 
-    # Resize the frame to 1/4th of its original size
-    resized_frame = cv2.resize(gray_frame, (0, 0), fx=0.25, fy=0.25)
+    resized_frame = cv2.resize(gray_frame, (100, 80))
+
+    # cv2.imshow("Resized Frame", gray_frame)
 
     return resized_frame
 

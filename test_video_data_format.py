@@ -31,7 +31,7 @@ def create_video_from_grayscale_array(gray_array, output_file, fps=30):
 
 if __name__ == "__main__":
 
-    numpy_file_path = 'combined_training_data.npy'
+    numpy_file_path = 'train_data_v2_1.npy'
     output_video_path = 'test_video.avi'
 
     gray_array = load_numpy_file(numpy_file_path)

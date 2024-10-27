@@ -28,7 +28,7 @@ try:
         if not isinstance(keys_pressed, (list, tuple)):
             raise ValueError("Keys pressed should be a list or tuple")
         
-        frames_and_keys.append((frame, keys_pressed))
+        frames_and_keys.append([frame, keys_pressed])
         frame_count += 1
 
         if frame_count % batch_size == 0:
