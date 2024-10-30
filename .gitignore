@@ -1,3 +1,5 @@
 *.avi
 *.npy
 __pycache__/
+venv/
+/log

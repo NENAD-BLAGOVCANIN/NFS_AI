@@ -4,7 +4,7 @@ import numpy as np
 import time
 import os
 
-output_filename = "train_data_v2"
+output_filename = "train_data_v4"
 batch_size = 1000
 frames_and_keys = []
 batch_count = 1
