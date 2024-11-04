@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from alexnet import alexnet
 from sklearn.preprocessing import OneHotEncoder
@@ -5,7 +6,7 @@ from sklearn.preprocessing import OneHotEncoder
 # Model and Data Parameters
 WIDTH = 100
 HEIGHT = 80
-LR = 1e-3
+LR = 1e-4
 EPOCHS = 10
 MODEL_NAME = 'nfs-driving-{}-{}-{}-epochs-300K-data.model'.format(LR, 'alexnetv2', EPOCHS)
 
@@ -22,7 +23,14 @@ action_map = {
 }
 
 # Define model with updated output neurons
-model = alexnet(WIDTH, HEIGHT, LR, output=len(action_map))  # Set output layer size according to action_map
+model = alexnet(WIDTH, HEIGHT, LR, output=len(action_map))
+
+# Check if a saved model exists
+if os.path.exists("model_alexnet-25500" + '.meta'):
+    print("Loading previous model...")
+    model.load("model_alexnet-25500")
+else:
+    print("No previous model found. Starting fresh.")
 
 hm_data = 22
 for epoch in range(EPOCHS):
@@ -60,3 +68,4 @@ for epoch in range(EPOCHS):
 
         # Save model after each epoch
         model.save(MODEL_NAME)
+        print(f"Epoch {epoch + 1}/{EPOCHS} completed and saved.")
